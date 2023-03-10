@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+  <div id="index-banner">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <form action="" method="POST">
+          {% csrf_token %}
+        <div class="row center">
+          <h5 class="header col s12 light">Current Booking</h5>
+        <div class="input-field col l8 s12">
+          <i class="material-icons prefix">credit_card</i>
+          <input type="number" name="card_number" class="autocomplete">
+          <label for="autocomplete-input">Card Number</label>
+        </div>
+        <div class="input-field col l4 s12">
+          <label></label>
+          <select name= "card_type" class="browser-default">
+            <option value="" disabled selected>Card Type</option>
+            <option value="debit">Debit</option>
+            <option value="credit">Credit</option>
+          </select>
+        </div>
+        </div>
+        {% if booking %}
+        <div class="container">
+          <div class="row center" style="font-size: 20px;">
+          {% for obj in some_list %}
+            {% if type == "flight" or type == "train" %}
+            <p class="card-title">{{obj.sourceLocation}} <-> {{obj.destinationLocation}}</p>
+            <p class="card-title">{{obj.departureDate}} @ {{obj.departureTime}}</p>
+            <p class="card-title">
+            {% if class == "economy" %}
+              <p>Economy ${{obj.fareEconomy}}</p>
+              {% endif %}
+              {% if class == "business" %}
+              <p>Business ${{obj.fareBusiness}}</p>
+              {% endif %}
+              {% if class == "first" %}
+              <p>First ${{obj.fareFirst}}</p>
+              {% endif %}
+            {% endif %}
+          </p>
+            {% if type == "hotel" %}
+            <p class="card-title">{{obj.address}} {{obj.city}}</p>
+            <p class="card-title">${{obj.dailyCost}}</p>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+        {% endif %}
+        <div class="row center">
+          <button class="btn waves-effect waves-light" style="width: 300px" type="submit">Confirm
+        </div>
+        </form>
+
+        
+        <center>
+        {% if msg %}
+          {{ msg }}
+        {% endif %}
+      </center>
+      <br><br>
+
+      </div>
+    </div>
+  </div>
+  
+  {% if results %}
+    <div class="row center">
+      <div class="container">
+        {% for obj in some_list %}
+          <div class="card teal lighten-2">
+            <div class="card-content white-text">
+              <span class="card-title">{{obj.companyName}}</span>
+              <div class="row" style="font-size: 16px;">
+                <div class="col l4 m4 s4">
+                  <p>Source: {{obj.sourceLocation}}</p>
+                  <p>Destination: {{obj.destinationLocation}}</p>
+                </div>
+              <div class="col l4 m4 s4">
+              <p>Departure Date: {{obj.departureDate}}</p>
+              <p>Departure Time: {{obj.departureTime}}</p>
+              </div>
+              {% if class == "economy" %}
+              <div class="col l4 m4 s4">
+                <p>Class: economy</p>
+              <p>Fare: {{obj.fareEconomy}}</p>
+              <p>Seats Available: {{obj.numSeatsRemainingEconomy}}</p>
+              </div>
+              {% endif %}
+              {% if class == "business" %}
+              <div class="col l4 m4 s4">
+                <p>Class: business</p>
+              </div>
+              <div class="col l4 m4 s4">
+              <p>Fare: {{obj.fareBusiness}}</p>
+            </div>
+              <div class="col l4 m4 s4">
+              <p>Seats Available: {{obj.numSeatsRemainingBusiness}}</p>
+            </div>
+              {% endif %}
+              {% if class == "first" %}
+              <div class="col l4 m4 s4">
+                <p>Class: first</p>
+              </div>
+              <div class="col l4 m4 s4">
+              <p>Fare: {{obj.fareFirst}}</p>
+            </div>
+              <div class="col l4 m4 s4">
+              <p>Seats Available: {{obj.numSeatsRemainingFirst}}</p>
+            </div>
+              {% endif %}
+            </div>
+            </div>
+            <div class="card-action">
+              <a href="#">Book Now</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>    
+  {% else %}
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">A modern responsive front-end travel agency built with Material Design</h5>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="{% static 'images/background1.jpg' %}" alt="Unsplashed background img 2"></div>
+  </div>
+  
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">Speeds up development</h5>
+
+            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">User Experience Focused</h5>
+
+            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
+            <h5 class="center">Easy to work with</h5>
+
+            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  {% endif %}
+
+{% endblock content %}
